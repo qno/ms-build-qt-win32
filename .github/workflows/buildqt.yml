@@ -33,6 +33,6 @@ jobs:
           conan install --build=missing ${{ matrix.config.conan-arch-settings }} qt/5.15.2@
       - name: Upload artifact
         uses: actions/upload-artifact@v2
-        with:   /
+        with:
           path: "C:/Users/runneradmin/.conan/data/qt/5.15.2/_/_/package/"
           name: ${{ matrix.config.name }}
