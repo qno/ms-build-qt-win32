@@ -9,11 +9,16 @@ jobs:
       matrix:
         config:
         - {
-            name: Windows,
+            name: Windows32Bit,
             os: windows-latest,
             conan-libcxx-setting: -s compiler.libcxx=libstdc++11,
-            activate-env: .\activate.ps1,
-            deactivate-env: .\deactivate.ps1,
+            conan-arch-settings: --settings arch=x86
+          }
+        - {
+            name: Windows64Bit,
+            os: windows-latest,
+            conan-libcxx-setting: -s compiler.libcxx=libstdc++11,
+            conan-arch-settings: ""
           }
     steps:
       - uses: actions/checkout@v2
@@ -25,9 +30,9 @@ jobs:
           python -m pip install --user --upgrade pip
           python -m pip install --user conan
           conan user
-          conan install --build=missing --settings arch=x86 qt/5.15.2@
-#      - name: Upload artifact
-#        uses: actions/upload-artifact@v2
-#        with:
-#          path: build/dist/**/*.zip
-#          name: ${{ matrix.config.name }}
+          conan install --build=missing ${{ matrix.config.conan-arch-settings }} qt/5.15.2@
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:   /
+          path: "C:/Users/runneradmin/.conan/data/qt/5.15.2/_/_/package/"
+          name: ${{ matrix.config.name }}
