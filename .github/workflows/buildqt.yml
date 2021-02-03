@@ -1,0 +1,33 @@
+name: Build Qt Conan Recipe
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      matrix:
+        config:
+        - {
+            name: Windows,
+            os: windows-latest,
+            conan-libcxx-setting: -s compiler.libcxx=libstdc++11,
+            activate-env: .\activate.ps1,
+            deactivate-env: .\deactivate.ps1,
+          }
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+         python-version: 3.x
+      - name: Build Plugin
+        run: |
+          python -m pip install --user --upgrade pip
+          python -m pip install --user conan
+          conan user
+          conan install --build=missing qt/5.15.2@
+#      - name: Upload artifact
+#        uses: actions/upload-artifact@v2
+#        with:
+#          path: build/dist/**/*.zip
+#          name: ${{ matrix.config.name }}
