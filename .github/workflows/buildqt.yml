@@ -25,7 +25,7 @@ jobs:
       - uses: actions/setup-python@v1
         with:
          python-version: 3.x
-      - name: Build Plugin
+      - name: download or build package
         run: |
           python -m pip install --user --upgrade pip
           python -m pip install --user conan
