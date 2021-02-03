@@ -25,14 +25,14 @@ jobs:
       - uses: actions/setup-python@v1
         with:
          python-version: 3.x
-      - name: download or build package
+      - name: download or build Qt Package
         run: |
           python -m pip install --user --upgrade pip
           python -m pip install --user conan
           conan user
-          conan install --build=missing ${{ matrix.config.conan-arch-settings }} qt/5.15.2@
+          conan install --build=missing ${{ matrix.config.conan-arch-settings }} -o qt:shared=True qt/5.15.2@
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          path: "C:/Users/runneradmin/.conan/data/qt/5.15.2/_/_/package/"
+          path: "C:/.conan/"
           name: ${{ matrix.config.name }}
