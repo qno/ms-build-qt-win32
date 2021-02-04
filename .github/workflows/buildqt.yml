@@ -9,13 +9,13 @@ jobs:
       matrix:
         config:
         - {
-            name: Windows32Bit,
+            name: Windows-32Bit,
             os: windows-latest,
             conan-libcxx-setting: -s compiler.libcxx=libstdc++11,
             conan-arch-settings: --settings arch=x86
           }
         - {
-            name: Windows64Bit,
+            name: Windows-64Bit,
             os: windows-latest,
             conan-libcxx-setting: -s compiler.libcxx=libstdc++11,
             conan-arch-settings: ""
@@ -25,14 +25,16 @@ jobs:
       - uses: actions/setup-python@v1
         with:
          python-version: 3.x
-      - name: download or build Qt Package
+      - name: Download or build Qt Package
         run: |
           python -m pip install --user --upgrade pip
           python -m pip install --user conan
           conan user
           conan install --build=missing ${{ matrix.config.conan-arch-settings }} -o qt:shared=True qt/5.15.2@
+          mkdir artifacts
+          xcopy $(cat ..\..\.conan\data\qt\5.15.2\_\_\package\**\.conan_link) .\artifacts\ /E /Y
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          path: "C:/.conan/"
+          path: artifacts
           name: ${{ matrix.config.name }}
