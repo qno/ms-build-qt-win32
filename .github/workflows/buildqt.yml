@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         arch: [x86, x86_64]
-        qt-version: [5.15.2]
+        qt-version: [5.15.2@, 6.0.1@bincrafters/stable, 5.12.5@bincrafters/stable]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v1
@@ -19,9 +19,10 @@ jobs:
           python -m pip install --user --upgrade pip
           python -m pip install --user conan
           conan user
-          conan install --build=missing --settings arch=${{ matrix.arch }} -o qt:shared=True qt/${{ matrix.qt-version }}@
+          conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+          conan install --build=missing --settings arch=${{ matrix.arch }} -o qt:shared=True qt/${{ matrix.qt-version }}
           mkdir artifacts
-          xcopy $(cat C:\Users\runneradmin\.conan\data\qt\${{ matrix.qt-version }}\_\_\package\**\.conan_link) .\artifacts\ /E /Y
+          xcopy $(cat C:\Users\runneradmin\.conan\data\qt\**\**\**\package\**\.conan_link) .\artifacts\ /E /Y
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
