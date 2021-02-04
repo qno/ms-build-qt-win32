@@ -32,7 +32,7 @@ jobs:
           conan user
           conan install --build=missing ${{ matrix.config.conan-arch-settings }} -o qt:shared=True qt/5.15.2@
           mkdir artifacts
-          xcopy $(cat ..\..\.conan\data\qt\5.15.2\_\_\package\**\.conan_link) .\artifacts\ /E /Y
+          xcopy $(cat C:\Users\runneradmin\.conan\data\qt\5.15.2\_\_\package\**\.conan_link) .\artifacts\ /E /Y
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
