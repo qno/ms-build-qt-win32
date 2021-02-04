@@ -24,6 +24,8 @@ jobs:
           mkdir artifacts
           xcopy $(cat C:\Users\runneradmin\.conan\data\qt\**\**\**\package\**\.conan_link) .\artifacts\ /E /Y
           echo "QTVERS=$(Get-ChildItem -Path C:\Users\runneradmin\.conan\data\qt\ -Name)" >> $GITHUB_ENV
+          echo "QTVERS=$(Get-ChildItem -Path C:\Users\runneradmin\.conan\data\qt\ -Name)" >> XxXx
+          cat XxXx
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
