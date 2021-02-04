@@ -3,7 +3,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: Qt-${{ matrix.qt-version }}-Win-${{ matrix.qt-version }}
+    name: Qt ${{ matrix.qt-version }} Windows ${{ matrix.arch }}
     runs-on:  windows-latest
     strategy:
       matrix:
@@ -26,4 +26,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           path: artifacts
-          name: Qt-${{ matrix.qt-version }}-Win-${{ matrix.qt-version }}
+          name: Qt-${{ matrix.qt-version }}-Win-${{ matrix.arch }}
