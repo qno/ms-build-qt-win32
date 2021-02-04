@@ -23,7 +23,7 @@ jobs:
           conan install --build=missing --settings arch=${{ matrix.arch }} -o qt:shared=True qt/${{ matrix.qt-version }}
           mkdir artifacts
           xcopy $(cat C:\Users\runneradmin\.conan\data\qt\**\**\**\package\**\.conan_link) .\artifacts\ /E /Y
-          echo "::set-env name=QTVERS::$(Get-ChildItem -Path C:\Users\runneradmin\.conan\data\qt\ -Name)"
+          echo "QTVERS=$(Get-ChildItem -Path C:\Users\runneradmin\.conan\data\qt\ -Name)" >> $GITHUB_ENV
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
