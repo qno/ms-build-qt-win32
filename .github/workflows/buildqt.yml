@@ -4,22 +4,11 @@ on: [push, pull_request]
 jobs:
   build:
     name: ${{ matrix.config.name }}
-    runs-on: ${{ matrix.config.os }}
+    runs-on:  windows-latest
     strategy:
       matrix:
-        config:
-        - {
-            name: Windows-32Bit,
-            os: windows-latest,
-            conan-libcxx-setting: -s compiler.libcxx=libstdc++11,
-            conan-arch-settings: --settings arch=x86
-          }
-        - {
-            name: Windows-64Bit,
-            os: windows-latest,
-            conan-libcxx-setting: -s compiler.libcxx=libstdc++11,
-            conan-arch-settings: ""
-          }
+        arch: [x86, x86_64]
+        qt-version: [5.15.2]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v1
@@ -30,11 +19,11 @@ jobs:
           python -m pip install --user --upgrade pip
           python -m pip install --user conan
           conan user
-          conan install --build=missing ${{ matrix.config.conan-arch-settings }} -o qt:shared=True qt/5.15.2@
+          conan install --build=missing --settings arch=${{ matrix.arch }} -o qt:shared=True qt/${{ matrix.qt-version }}@
           mkdir artifacts
-          xcopy $(cat C:\Users\runneradmin\.conan\data\qt\5.15.2\_\_\package\**\.conan_link) .\artifacts\ /E /Y
+          xcopy $(cat C:\Users\runneradmin\.conan\data\qt\${{ matrix.qt-version }}\_\_\package\**\.conan_link) .\artifacts\ /E /Y
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           path: artifacts
-          name: ${{ matrix.config.name }}
+          name: Qt-${{ matrix.qt-version }}-Win-${{ matrix.qt-version }}
