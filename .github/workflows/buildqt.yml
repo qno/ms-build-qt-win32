@@ -3,7 +3,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: ${{ matrix.config.name }}
+    name: Qt-${{ matrix.qt-version }}-Win-${{ matrix.qt-version }}
     runs-on:  windows-latest
     strategy:
       matrix:
