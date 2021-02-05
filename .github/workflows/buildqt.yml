@@ -3,12 +3,14 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: Qt ${{ matrix.qt-version }} Windows ${{ matrix.arch }}
-    runs-on:  windows-latest
+    name: Qt ${{ matrix.qt-version }} ${{ matrix.win-os }} ${{ matrix.arch }}
+    runs-on: ${{ matrix.win-os }}
     strategy:
+      fail-fast: false
       matrix:
         arch: [x86, x86_64]
-        qt-version: [5.15.2@] # , 5.12.5@bincrafters/stable, 6.0.1@bincrafters/stable]
+        qt-version: [5.15.2@, 5.12.5@bincrafters/stable, 6.0.1@bincrafters/stable]
+        win-os: [windows-2019, windows-2016]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v1
@@ -28,4 +30,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           path: artifacts
-          name: Qt-${{ env.QTVERS }}-Win-${{ matrix.arch }}
+          name: Qt-${{ env.QTVERS }}-${{ matrix.win-os }}-${{ matrix.arch }}
