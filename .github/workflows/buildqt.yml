@@ -16,6 +16,10 @@ jobs:
       - uses: actions/setup-python@v1
         with:
          python-version: 3.x
+      - name: Hack for libiconv build error #https://github.com/conan-io/conan-center-index/issues/332#issuecomment-582012355
+        if: ${{ matrix.arch }} == 'x86'
+        run: |
+          $env:PROCESSOR_ARCHITECTURE='i386'
       - name: Download or build Qt Package
         run: |
           python -m pip install --user --upgrade pip
